@@ -25,7 +25,7 @@ import { useMemo, useState } from 'react'
 import { FaFacebookF, FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
 import { CONTENT } from './data/content'
 import { skillGroups } from './data/skillGroups'
-import { achievements } from './data/achievements'
+import { achievementsByLang } from './data/achievements'
 import { photoTilesByLang } from './data/photoTiles'
 import { experiencesByLang } from './data/experiences'
 import { projectsByLang } from './data/projects'
@@ -37,6 +37,25 @@ const LANGUAGES = [
   { code: 'th', label: '\u0e44\u0e17\u0e22' },
   { code: 'zh', label: '\u4e2d\u6587' },
 ]
+
+const LANG_TO_LOCALE = {
+  en: 'en-US',
+  mya: 'my-MM',
+  th: 'th-TH',
+  zh: 'zh-CN',
+}
+
+function formatDisplayDate(dateInput, lang) {
+  if (!dateInput) return ''
+  const parsed = new Date(dateInput)
+  if (Number.isNaN(parsed.getTime())) return dateInput
+  const locale = LANG_TO_LOCALE[lang] ?? 'en-US'
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(parsed)
+}
 
 function Rating({ value }) {
   return (
@@ -101,6 +120,7 @@ export default function App() {
   const photoTiles = useMemo(() => photoTilesByLang[lang] ?? photoTilesByLang.en, [lang])
   const experiences = useMemo(() => experiencesByLang[lang] ?? experiencesByLang.en, [lang])
   const projects = useMemo(() => projectsByLang[lang] ?? projectsByLang.en, [lang])
+  const achievements = useMemo(() => achievementsByLang[lang] ?? achievementsByLang.en, [lang])
   const { colorMode, toggleColorMode } = useColorMode()
 
   const pageBg = useColorModeValue('#f3f8ff', '#060d18')
@@ -305,6 +325,11 @@ export default function App() {
                   </AspectRatio>
 
                   <VStack align="start" spacing={3} h="100%">
+                    {project.date ? (
+                      <Tag colorScheme="cyan" variant="solid" fontWeight="bold">
+                        {formatDisplayDate(project.date, lang)}
+                      </Tag>
+                    ) : null}
                     <Heading size="md" lineHeight={1.3}>
                       {project.title}
                     </Heading>
