@@ -1,6 +1,6 @@
 ﻿export const CONTENT = {
   en: {
-    nav: { about: 'About', projects: 'Projects', skills: 'Skills', resume: 'Resume', contact: 'Contact' },
+    nav: { about: 'About', experience: 'Experience', projects: 'Projects', skills: 'Skills', resume: 'Resume', contact: 'Contact' },
     headline: 'ICT Student | Future Software Engineer & AI/Data Builder',
     intro:
       'I am Kyaw Swar Hein, an international student from Myanmar studying Information and Communication Technology at Rangsit University. I enjoy solving practical problems with software, data, and intelligent systems.',
@@ -9,6 +9,8 @@
     strengths: 'Strengths',
     strengthItems: ['Programming', 'Problem Solving', 'Artificial Intelligence', 'Data Analysis'],
     achievements: 'Achievements',
+    photoTitle: 'Photo',
+    experienceTitle: 'Experience',
     projects: 'Projects',
     skills: 'Skills',
     resume: 'Resume',
@@ -28,7 +30,7 @@
     themeLabelLight: 'Light',
   },
   mya: {
-    nav: { about: 'အကြောင်းအရာ', projects: 'Project များ', skills: 'စွမ်းရည်များ', resume: 'ကိုယ်ရေးအကျဉ်း', contact: 'ဆက်သွယ်ရန်' },
+    nav: { about: 'အကြောင်းအရာ', experience: 'အတွေ့အကြုံ', projects: 'Project များ', skills: 'စွမ်းရည်များ', resume: 'ကိုယ်ရေးအကျဉ်း', contact: 'ဆက်သွယ်ရန်' },
     headline: 'ICT ကျောင်းသား | Software Engineer & AI/Data Developer ဖြစ်မည့်သူ',
     intro:
       'ကျွန်တော် Kyaw Swar Hein ဖြစ်ပြီး Myanmar မှလာသော international student တစ်ယောက်ဖြစ်ကာ Rangsit University တွင် ICT ကိုလေ့လာနေပါတယ်။ Software, data နှင့် AI ကို အသုံးချပြီး ပြဿနာတွေကို ဖြေရှင်းရတာကို နှစ်သက်ပါတယ်။',
@@ -37,6 +39,8 @@
     strengths: 'အားသာချက်များ',
     strengthItems: ['Programming', 'Problem Solving', 'AI', 'Data Analysis'],
     achievements: 'အောင်မြင်မှုများ',
+    photoTitle: 'ဓာတ်ပုံ',
+    experienceTitle: 'အတွေ့အကြုံ',
     projects: 'Project များ',
     skills: 'စွမ်းရည်များ',
     resume: 'ကိုယ်ရေးအကျဉ်း',
@@ -54,7 +58,7 @@
     themeLabelLight: 'အလင်း',
   },
   th: {
-    nav: { about: 'เกี่ยวกับ', projects: 'โปรเจกต์', skills: 'ทักษะ', resume: 'เรซูเม่', contact: 'ติดต่อ' },
+    nav: { about: 'เกี่ยวกับ', experience: 'ประสบการณ์', projects: 'โปรเจกต์', skills: 'ทักษะ', resume: 'เรซูเม่', contact: 'ติดต่อ' },
     headline: 'นักศึกษา ICT | ว่าที่ Software Engineer และ AI/Data Builder',
     intro:
       'ผมชื่อ Kyaw Swar Hein เป็นนักศึกษาต่างชาติจากเมียนมาร์ กำลังเรียน ICT ที่มหาวิทยาลัยรังสิต สนใจการแก้ปัญหาด้วยซอฟต์แวร์ ข้อมูล และระบบอัจฉริยะ',
@@ -63,6 +67,8 @@
     strengths: 'จุดแข็ง',
     strengthItems: ['Programming', 'Problem Solving', 'AI', 'Data Analysis'],
     achievements: 'ความสำเร็จ',
+    photoTitle: 'รูปภาพ',
+    experienceTitle: 'ประสบการณ์',
     projects: 'โปรเจกต์',
     skills: 'ทักษะ',
     resume: 'เรซูเม่',
@@ -80,7 +86,7 @@
     themeLabelLight: 'สว่าง',
   },
   zh: {
-    nav: { about: '关于', projects: '项目', skills: '技能', resume: '简历', contact: '联系' },
+    nav: { about: '关于', experience: '经历', projects: '项目', skills: '技能', resume: '简历', contact: '联系' },
     headline: 'ICT 学生 | 未来软件工程师与 AI/数据开发者',
     intro:
       '我是 Kyaw Swar Hein，来自缅甸，目前在兰实大学学习信息与通信技术。我热衷于用软件、数据和智能系统解决真实问题。',
@@ -89,6 +95,8 @@
     strengths: '核心优势',
     strengthItems: ['编程', '问题解决', '人工智能', '数据分析'],
     achievements: '获奖经历',
+    photoTitle: '照片',
+    experienceTitle: '经历',
     projects: '项目',
     skills: '技能',
     resume: '简历',

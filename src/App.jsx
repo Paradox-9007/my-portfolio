@@ -1,4 +1,5 @@
 ﻿import {
+  AspectRatio,
   Box,
   Button,
   ButtonGroup,
@@ -21,15 +22,20 @@
 } from '@chakra-ui/react'
 import { ArrowForwardIcon, DownloadIcon, EmailIcon, ExternalLinkIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { useMemo, useState } from 'react'
+import { FaFacebookF, FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
 import { CONTENT } from './data/content'
 import { skillGroups } from './data/skillGroups'
 import { achievements } from './data/achievements'
+import { photoTilesByLang } from './data/photoTiles'
+import { experiencesByLang } from './data/experiences'
+import { projectsByLang } from './data/projects'
+import { socialLinks } from './data/socialLinks'
 
 const LANGUAGES = [
   { code: 'en', label: 'English' },
-  { code: 'mya', label: 'မြန်မာ' },
-  { code: 'th', label: 'ไทย' },
-  { code: 'zh', label: '中文' },
+  { code: 'mya', label: '\u1019\u103c\u1014\u103a\u1019\u102c' },
+  { code: 'th', label: '\u0e44\u0e17\u0e22' },
+  { code: 'zh', label: '\u4e2d\u6587' },
 ]
 
 function Rating({ value }) {
@@ -37,7 +43,7 @@ function Rating({ value }) {
     <HStack spacing={1}>
       {[1, 2, 3, 4, 5].map((point) => (
         <Text key={point} fontSize="sm" aria-label={`${value}/5`}>
-          {point <= value ? '⭐' : '☆'}
+          {point <= value ? '\u2605' : '\u2606'}
         </Text>
       ))}
       <Text fontSize="xs" color="gray.400">{value}/5</Text>
@@ -45,20 +51,21 @@ function Rating({ value }) {
   )
 }
 
-function ProjectImageSlot({ src, title, proofLabel, addPhotoText }) {
+function ProjectImageSlot({ src, title, proofLabel, addPhotoText, height = { base: '140px', md: '160px' } }) {
   const [broken, setBroken] = useState(false)
   const borderColor = useColorModeValue('gray.300', 'whiteAlpha.400')
   const bg = useColorModeValue('gray.100', 'whiteAlpha.100')
 
   if (!broken) {
     return (
-      <Box borderWidth="1px" borderColor={borderColor} borderRadius="lg" overflow="hidden" bg={bg}>
+      <Box borderWidth="1px" borderColor={borderColor} borderRadius="lg" overflow="hidden" bg={bg} h={height}>
         <Image
           src={src}
           alt={`${title} proof`}
           w="100%"
-          h="180px"
+          h="100%"
           objectFit="cover"
+          objectPosition="center"
           transition="transform 0.35s ease"
           _hover={{ transform: 'scale(1.04)' }}
           onError={() => setBroken(true)}
@@ -73,7 +80,7 @@ function ProjectImageSlot({ src, title, proofLabel, addPhotoText }) {
       borderStyle="dashed"
       borderColor={borderColor}
       borderRadius="lg"
-      h="180px"
+      h={height}
       bg={bg}
       display="grid"
       placeItems="center"
@@ -91,6 +98,9 @@ function ProjectImageSlot({ src, title, proofLabel, addPhotoText }) {
 export default function App() {
   const [lang, setLang] = useState('en')
   const t = useMemo(() => CONTENT[lang] ?? CONTENT.en, [lang])
+  const photoTiles = useMemo(() => photoTilesByLang[lang] ?? photoTilesByLang.en, [lang])
+  const experiences = useMemo(() => experiencesByLang[lang] ?? experiencesByLang.en, [lang])
+  const projects = useMemo(() => projectsByLang[lang] ?? projectsByLang.en, [lang])
   const { colorMode, toggleColorMode } = useColorMode()
 
   const pageBg = useColorModeValue('#f3f8ff', '#060d18')
@@ -99,21 +109,25 @@ export default function App() {
   const cardBorder = useColorModeValue('gray.200', 'whiteAlpha.300')
   const navBg = useColorModeValue('rgba(255,255,255,0.76)', 'rgba(10, 14, 25, 0.78)')
   const cardShadow = useColorModeValue('0 16px 36px rgba(20, 30, 50, 0.09)', '0 16px 36px rgba(0, 0, 0, 0.35)')
+  const cardInnerBg = useColorModeValue('gray.50', 'whiteAlpha.100')
+  const contactCardBg = useColorModeValue('whiteAlpha.700', 'whiteAlpha.100')
+  const pageText = useColorModeValue('gray.900', 'gray.100')
+  const interactiveBorder = useColorModeValue('cyan.300', 'cyan.500')
+  const footerColor = useColorModeValue('gray.500', 'gray.500')
   const accentAura = useColorModeValue(
-    'radial-gradient(circle at 12% 10%, rgba(56,189,248,0.22), transparent 34%), radial-gradient(circle at 86% 3%, rgba(14,165,233,0.16), transparent 28%)',
-    'radial-gradient(circle at 12% 10%, rgba(56,189,248,0.28), transparent 34%), radial-gradient(circle at 86% 3%, rgba(34,211,238,0.2), transparent 28%)',
+    'radial-gradient(circle at 10% 6%, rgba(56,189,248,0.2), transparent 36%), radial-gradient(circle at 86% 2%, rgba(14,165,233,0.16), transparent 30%), radial-gradient(circle at 50% 96%, rgba(16,185,129,0.08), transparent 38%)',
+    'radial-gradient(circle at 10% 6%, rgba(56,189,248,0.3), transparent 36%), radial-gradient(circle at 86% 2%, rgba(34,211,238,0.22), transparent 30%), radial-gradient(circle at 50% 96%, rgba(16,185,129,0.12), transparent 38%)',
   )
   const techGrid = useColorModeValue(
-    'linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px)',
-    'linear-gradient(to right, rgba(0,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,255,255,0.08) 1px, transparent 1px)',
+    'linear-gradient(to right, rgba(15,23,42,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(15,23,42,0.05) 1px, transparent 1px), linear-gradient(135deg, rgba(56,189,248,0.06), transparent 45%)',
+    'linear-gradient(to right, rgba(56,189,248,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(56,189,248,0.07) 1px, transparent 1px), linear-gradient(135deg, rgba(14,165,233,0.12), transparent 45%)',
   )
-
-  const photoTiles = [
-    { title: 'Portrait', subtitle: 'Professional headshot', bg: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)' },
-    { title: 'Hackathon', subtitle: 'Competition moment', bg: 'linear-gradient(135deg, #14b8a6 0%, #0f766e 100%)' },
-    { title: 'Project Demo', subtitle: 'Presentation day', bg: 'linear-gradient(135deg, #38bdf8 0%, #1d4ed8 100%)' },
-    { title: 'Team Event', subtitle: 'Collaboration snapshot', bg: 'linear-gradient(135deg, #06b6d4 0%, #0e7490 100%)' },
-  ]
+  const socialIconMap = {
+    linkedin: FaLinkedinIn,
+    github: FaGithub,
+    instagram: FaInstagram,
+    facebook: FaFacebookF,
+  }
 
   return (
     <Box
@@ -121,7 +135,7 @@ export default function App() {
       bg={pageBg}
       backgroundImage={`${accentAura}, ${techGrid}`}
       backgroundSize="18px 18px"
-      color={useColorModeValue('gray.900', 'gray.100')}
+      color={pageText}
     >
       <Container maxW="6xl" py={{ base: 5, md: 10 }}>
         <Flex
@@ -143,8 +157,9 @@ export default function App() {
           gap={3}
         >
           <Heading size="sm" letterSpacing="wide">Kyaw Swar Hein</Heading>
-          <HStack spacing={2} flexWrap="wrap">
+          <HStack spacing={2} flexWrap="wrap" pt={1}>
             <Button as="a" href="#about" size="sm" variant="ghost" colorScheme="cyan">{t.nav.about}</Button>
+            <Button as="a" href="#experience" size="sm" variant="ghost" colorScheme="cyan">{t.nav.experience}</Button>
             <Button as="a" href="#projects" size="sm" variant="ghost" colorScheme="cyan">{t.nav.projects}</Button>
             <Button as="a" href="#skills" size="sm" variant="ghost" colorScheme="cyan">{t.nav.skills}</Button>
             <Button as="a" href="#resume" size="sm" variant="ghost" colorScheme="cyan">{t.nav.resume}</Button>
@@ -185,7 +200,7 @@ export default function App() {
 
                 <Box>
                   <Heading size="sm" mb={2}>{t.strengths}</Heading>
-                  <HStack spacing={2} flexWrap="wrap">
+                  <HStack spacing={2} flexWrap="wrap" pt={1}>
                     {t.strengthItems.map((item) => (
                       <Tag key={item} colorScheme="cyan" variant="subtle">{item}</Tag>
                     ))}
@@ -196,7 +211,7 @@ export default function App() {
                   <Heading size="sm" mb={2}>{t.achievements}</Heading>
                   <VStack align="start" spacing={1}>
                     {achievements.map((item) => (
-                      <Text key={item} color={textSoft}>🏆 {item}</Text>
+                      <Text key={item} color={textSoft}>{'\uD83C\uDFC6'} {item}</Text>
                     ))}
                   </VStack>
                 </Box>
@@ -223,7 +238,7 @@ export default function App() {
               bg={cardBg}
               boxShadow={cardShadow}
             >
-              <Heading size="md" mb={4}>Photo</Heading>
+              <Heading size="md" mb={4}>{t.photoTitle}</Heading>
               <SimpleGrid columns={2} spacing={3} minH={{ base: '260px', md: '420px' }}>
                 {photoTiles.map((tile) => (
                   <Box
@@ -231,7 +246,9 @@ export default function App() {
                     borderRadius="xl"
                     borderWidth="1px"
                     borderColor="whiteAlpha.400"
-                    bgImage={tile.bg}
+                    bgImage={tile.image ? `linear-gradient(to top, rgba(2,6,23,0.64), rgba(2,6,23,0.16)), url('${tile.image}')` : tile.bg}
+                    bgSize="cover"
+                    bgPosition="center"
                     color="white"
                     p={4}
                     display="flex"
@@ -241,12 +258,6 @@ export default function App() {
                     position="relative"
                     overflow="hidden"
                     transition="all 0.25s ease"
-                    _before={{
-                      content: '""',
-                      position: 'absolute',
-                      inset: 0,
-                      bg: 'linear-gradient(to top, rgba(2,6,23,0.68), rgba(2,6,23,0.08))',
-                    }}
                     _hover={{ transform: 'translateY(-4px) scale(1.01)', boxShadow: '0 12px 24px rgba(0,0,0,0.28)' }}
                   >
                     <Text position="relative" fontWeight="bold">{tile.title}</Text>
@@ -256,6 +267,69 @@ export default function App() {
               </SimpleGrid>
             </GridItem>
           </Grid>
+
+          <Box
+            id="experience"
+            borderWidth="1px"
+            borderColor={cardBorder}
+            borderRadius="xl"
+            p={{ base: 6, md: 8 }}
+            bg={cardBg}
+            boxShadow={cardShadow}
+          >
+            <Heading size="lg" mb={5}>{t.experienceTitle}</Heading>
+
+            <VStack spacing={4} align="stretch">
+              {experiences.map((project) => (
+                <Grid
+                  key={project.title}
+                  templateColumns={{ base: '1fr', md: '260px 1fr' }}
+                  gap={{ base: 4, md: 5 }}
+                  p={{ base: 4, md: 5 }}
+                  borderWidth="1px"
+                  borderColor={cardBorder}
+                  borderRadius="lg"
+                  bg={cardInnerBg}
+                  transition="transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease"
+                  _hover={{ transform: 'translateY(-3px)', borderColor: interactiveBorder, boxShadow: '0 10px 22px rgba(0,0,0,0.16)' }}
+                  _focusWithin={{ borderColor: interactiveBorder, boxShadow: '0 0 0 1px rgba(34,211,238,0.35)' }}
+                >
+                  <AspectRatio ratio={16 / 10} w="100%">
+                    <ProjectImageSlot
+                      src={project.src}
+                      title={project.title}
+                      proofLabel={t.proof}
+                      addPhotoText={t.addPhoto}
+                      height="100%"
+                    />
+                  </AspectRatio>
+
+                  <VStack align="start" spacing={3} h="100%">
+                    <Heading size="md" lineHeight={1.3}>
+                      {project.title}
+                    </Heading>
+                    <Text color={textSoft} lineHeight={1.8} fontSize={{ base: 'md', md: 'lg' }}>
+                      {project.description}
+                    </Text>
+                    <HStack spacing={2} flexWrap="wrap" pt={1}>
+                      {project.tags.map((tag) => (
+                        <Tag key={tag} colorScheme="cyan" variant="subtle">{tag}</Tag>
+                      ))}
+                    </HStack>
+                    {project.links?.length > 0 && (
+                      <HStack spacing={5} flexWrap="wrap" pt={1}>
+                        {project.links.map((item) => (
+                          <Link key={`${project.title}-${item.label}-${item.href}`} href={item.href} color={item.color ?? 'cyan.400'} isExternal fontWeight="semibold">
+                            {item.label} <Icon as={ExternalLinkIcon} mx="1" />
+                          </Link>
+                        ))}
+                      </HStack>
+                    )}
+                  </VStack>
+                </Grid>
+              ))}
+            </VStack>
+          </Box>
 
           <Box
             id="projects"
@@ -270,115 +344,55 @@ export default function App() {
               {t.projects}
             </Heading>
 
-            <VStack spacing={5} align="stretch">
-              <Box
-                p={5}
-                borderWidth="1px"
-                borderColor={cardBorder}
-                borderRadius="lg"
-                bg={useColorModeValue('gray.50', 'whiteAlpha.100')}
-                transition="all 0.2s ease"
-                _hover={{ transform: 'translateY(-4px)', borderColor: useColorModeValue('cyan.300', 'cyan.500') }}
-              >
-                <ProjectImageSlot
-                  src="/project-leor-proof.jpg"
-                  title="LÈOR – Smart Safety Wristband + Mobile App"
-                  proofLabel={t.proof}
-                  addPhotoText={t.addPhoto}
-                />
-                <Heading size="md" mt={4} mb={2}>
-                  LÈOR – Smart Safety Wristband + Mobile App
-                </Heading>
-                <Text color={textSoft} mb={4} lineHeight={1.7}>
-                  Smart safety wristband and companion app concept with AI-assisted alerts, location-aware workflows, and emergency-first interaction design.
-                </Text>
-                <HStack spacing={2} mb={4} flexWrap="wrap">
-                  <Tag colorScheme="cyan" variant="subtle">AI-Assisted Design</Tag>
-                  <Tag colorScheme="cyan" variant="subtle">Mobile UX</Tag>
-                  <Tag colorScheme="cyan" variant="subtle">Concept Prototyping</Tag>
-                </HStack>
-                <HStack spacing={4}>
-                  <Link href="#" color="cyan.400" isExternal fontWeight="semibold">
-                    GitHub <Icon as={ExternalLinkIcon} mx="1" />
-                  </Link>
-                  <Link href="#" color="cyan.300" isExternal fontWeight="semibold">
-                    Demo <Icon as={ExternalLinkIcon} mx="1" />
-                  </Link>
-                </HStack>
-              </Box>
+            <VStack spacing={4} align="stretch">
+              {projects.map((project) => (
+                <Grid
+                  key={project.title}
+                  templateColumns={{ base: '1fr', md: '260px 1fr' }}
+                  gap={{ base: 4, md: 5 }}
+                  p={{ base: 4, md: 5 }}
+                  borderWidth="1px"
+                  borderColor={cardBorder}
+                  borderRadius="lg"
+                  bg={cardInnerBg}
+                  transition="transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease"
+                  _hover={{ transform: 'translateY(-3px)', borderColor: interactiveBorder, boxShadow: '0 10px 22px rgba(0,0,0,0.16)' }}
+                  _focusWithin={{ borderColor: interactiveBorder, boxShadow: '0 0 0 1px rgba(34,211,238,0.35)' }}
+                >
+                  <AspectRatio ratio={16 / 10} w="100%">
+                    <ProjectImageSlot
+                      src={project.src}
+                      title={project.title}
+                      proofLabel={t.proof}
+                      addPhotoText={t.addPhoto}
+                      height="100%"
+                    />
+                  </AspectRatio>
 
-              <Box
-                p={5}
-                borderWidth="1px"
-                borderColor={cardBorder}
-                borderRadius="lg"
-                bg={useColorModeValue('gray.50', 'whiteAlpha.100')}
-                transition="all 0.2s ease"
-                _hover={{ transform: 'translateY(-4px)', borderColor: useColorModeValue('cyan.300', 'cyan.500') }}
-              >
-                <ProjectImageSlot
-                  src="/project-erp-proof.jpg"
-                  title="Hospitality ERP Data Visualization Dashboard"
-                  proofLabel={t.proof}
-                  addPhotoText={t.addPhoto}
-                />
-                <Heading size="md" mt={4} mb={2}>
-                  Hospitality ERP Data Visualization Dashboard
-                </Heading>
-                <Text color={textSoft} mb={4} lineHeight={1.7}>
-                  Hackathon-winning dashboard for hospitality operations that translates ERP data into visual KPIs for strategic and real-time decision making.
-                </Text>
-                <HStack spacing={2} mb={4} flexWrap="wrap">
-                  <Tag colorScheme="cyan" variant="subtle">Python</Tag>
-                  <Tag colorScheme="cyan" variant="subtle">SQL</Tag>
-                  <Tag colorScheme="cyan" variant="subtle">Data Visualization</Tag>
-                  <Tag colorScheme="cyan" variant="subtle">Dashboard Architecture</Tag>
-                </HStack>
-                <HStack spacing={4}>
-                  <Link href="#" color="cyan.400" isExternal fontWeight="semibold">
-                    GitHub <Icon as={ExternalLinkIcon} mx="1" />
-                  </Link>
-                  <Link href="#" color="cyan.300" isExternal fontWeight="semibold">
-                    Demo <Icon as={ExternalLinkIcon} mx="1" />
-                  </Link>
-                </HStack>
-              </Box>
-
-              <Box
-                p={5}
-                borderWidth="1px"
-                borderColor={cardBorder}
-                borderRadius="lg"
-                bg={useColorModeValue('gray.50', 'whiteAlpha.100')}
-                transition="all 0.2s ease"
-                _hover={{ transform: 'translateY(-4px)', borderColor: useColorModeValue('cyan.300', 'cyan.500') }}
-              >
-                <ProjectImageSlot
-                  src="/project-ai-proof.jpg"
-                  title="AI / Data Science Academic Project"
-                  proofLabel={t.proof}
-                  addPhotoText={t.addPhoto}
-                />
-                <Heading size="md" mt={4} mb={2}>
-                  AI / Data Science Academic Project
-                </Heading>
-                <Text color={textSoft} mb={4} lineHeight={1.7}>
-                  Academic machine learning project covering data preprocessing, model training, evaluation, and communication of findings through clear visual reports.
-                </Text>
-                <HStack spacing={2} mb={4} flexWrap="wrap">
-                  <Tag colorScheme="cyan" variant="subtle">Machine Learning</Tag>
-                  <Tag colorScheme="cyan" variant="subtle">Data Analysis</Tag>
-                  <Tag colorScheme="cyan" variant="subtle">Python</Tag>
-                </HStack>
-                <HStack spacing={4}>
-                  <Link href="#" color="cyan.400" isExternal fontWeight="semibold">
-                    GitHub <Icon as={ExternalLinkIcon} mx="1" />
-                  </Link>
-                  <Link href="#" color="cyan.300" isExternal fontWeight="semibold">
-                    Demo <Icon as={ExternalLinkIcon} mx="1" />
-                  </Link>
-                </HStack>
-              </Box>
+                  <VStack align="start" spacing={3} h="100%">
+                    <Heading size="md" lineHeight={1.3}>
+                      {project.title}
+                    </Heading>
+                    <Text color={textSoft} lineHeight={1.8} fontSize={{ base: 'md', md: 'lg' }}>
+                      {project.description}
+                    </Text>
+                    <HStack spacing={2} flexWrap="wrap" pt={1}>
+                      {project.tags.map((tag) => (
+                        <Tag key={tag} colorScheme="cyan" variant="subtle">{tag}</Tag>
+                      ))}
+                    </HStack>
+                    {project.links?.length > 0 && (
+                      <HStack spacing={5} flexWrap="wrap" pt={1}>
+                        {project.links.map((item) => (
+                          <Link key={`${project.title}-${item.label}-${item.href}`} href={item.href} color={item.color ?? 'cyan.400'} isExternal fontWeight="semibold">
+                            {item.label} <Icon as={ExternalLinkIcon} mx="1" />
+                          </Link>
+                        ))}
+                      </HStack>
+                    )}
+                  </VStack>
+                </Grid>
+              ))}
             </VStack>
           </Box>
 
@@ -392,9 +406,9 @@ export default function App() {
                   borderWidth="1px"
                   borderColor={cardBorder}
                   borderRadius="lg"
-                  bg={useColorModeValue('gray.50', 'whiteAlpha.100')}
+                  bg={cardInnerBg}
                   transition="all 0.2s ease"
-                  _hover={{ transform: 'translateY(-3px)', borderColor: useColorModeValue('cyan.300', 'cyan.500') }}
+                  _hover={{ transform: 'translateY(-3px)', borderColor: interactiveBorder }}
                 >
                   <Heading size="sm" mb={4}>{group.icon} {group.title}</Heading>
                   <VStack align="stretch" spacing={3}>
@@ -423,23 +437,65 @@ export default function App() {
           <Box id="contact" borderWidth="1px" borderColor={cardBorder} borderRadius="xl" p={{ base: 6, md: 8 }} bg={cardBg} boxShadow={cardShadow}>
             <Heading size="lg" mb={2}>{t.contact}</Heading>
             <Text color={textSoft} mb={4}>{t.contactText}</Text>
-            <VStack align="start" spacing={3}>
-              <Link href="mailto:kyawswarhein@example.com" color="cyan.400">
-                <Icon as={EmailIcon} mr={2} /> kyawswarhein@example.com
+            <VStack align="stretch" spacing={3} h="100%">
+              <Link
+                href="mailto:kyawswarhein3092004@gmail.com"
+                display="block"
+                borderWidth="1px"
+                borderColor={cardBorder}
+                borderRadius="lg"
+                px={4}
+                py={3}
+                bg={contactCardBg}
+                _hover={{ textDecoration: 'none', borderColor: interactiveBorder, transform: 'translateY(-2px)' }}
+                transition="all 0.2s ease"
+              >
+                <HStack justify="space-between" spacing={3}>
+                  <HStack spacing={3}>
+                    <Icon as={EmailIcon} color="cyan.300" />
+                    <Text color="cyan.300" fontWeight="semibold">kyawswarhein3092004@gmail.com</Text>
+                  </HStack>
+                </HStack>
               </Link>
-              <Link href="https://www.linkedin.com" color="cyan.400" isExternal>
-                LinkedIn <Icon as={ExternalLinkIcon} mx="1" />
-              </Link>
-              <Link href="https://github.com" color="cyan.400" isExternal>
-                GitHub <Icon as={ExternalLinkIcon} mx="1" />
-              </Link>
+
+              <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={3}>
+                {socialLinks.map((item) => {
+                  const SocialIcon = socialIconMap[item.icon]
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      isExternal
+                      display="block"
+                      borderWidth="1px"
+                      borderColor={cardBorder}
+                      borderRadius="lg"
+                      px={4}
+                      py={3}
+                      bg={contactCardBg}
+                      _hover={{ textDecoration: 'none', borderColor: interactiveBorder, transform: 'translateY(-2px)' }}
+                      transition="all 0.2s ease"
+                    >
+                      <HStack justify="space-between" spacing={3}>
+                        <HStack spacing={3}>
+                          <Box boxSize="26px" display="grid" placeItems="center">
+                            {SocialIcon ? <Icon as={SocialIcon} boxSize={5} color="cyan.300" /> : null}
+                          </Box>
+                          <Text fontWeight="semibold" color={textSoft}>{item.name}</Text>
+                        </HStack>
+                        <Icon as={ExternalLinkIcon} color={textSoft} />
+                      </HStack>
+                    </Link>
+                  )
+                })}
+              </SimpleGrid>
             </VStack>
           </Box>
         </VStack>
-
-        <Text textAlign="center" color={useColorModeValue('gray.500', 'gray.500')} mt={10} fontSize="sm">
-          © {new Date().getFullYear()} Kyaw Swar Hein — {t.footer}
-        </Text>
+      <Text
+        textAlign="center" color={footerColor} mt={10} fontSize="sm">
+        © {new Date().getFullYear()} Kyaw Swar Hein • {t.footer}
+      </Text>
       </Container>
     </Box>
   )
